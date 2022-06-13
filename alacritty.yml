@@ -106,7 +106,7 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: Monoid HalfLoose 
-    family: FiraCode Nerd Font Mono
+    family: FiraCode Nerd Font
     #family: Anonymice Nerd Font Mono
     # The `style` can be specified to pick a specific face.
     # style: Regular
@@ -139,7 +139,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 18.0
+  size: 17.0
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
@@ -799,32 +799,28 @@ font:
 colors:
   # Default colors
   primary:
-    background: '0xffffff'
-    foreground: '0x4d5566'
+    background: '#202734'
+    foreground: '#CBCCC6'
 
   # Normal colors
   normal:
-    black: '0x24292e'
-    red: '0xd73a49'
-    green: '0x22863a'
-    yellow: '0xb08800'
-    blue: '0x0366d6'
-    magenta: '0x6f42c1'
-    cyan: '0x1b7c83'
-    white: '0x4d5566'
+    black: '#191E2A'
+    red: '#FF3333'
+    green: '#BAE67E'
+    yellow: '#FFA759'
+    blue: '#73D0FF'
+    magenta: '#FFD580'
+    cyan: '#95E6CB'
+    white: '#C7C7C7'
 
   # Bright colors
   bright:
-    black: '0x586069'
-    red: '0xcb2431'
-    green: '0x28a745'
-    yellow: '0xdbab09'
-    blue: '0x2188ff'
-    magenta: '0x8a63d2'
-    cyan: '0x1b7c83'
-    white: '0x4d5566'
-
-  indexed_colors:
-    - { index: 16, color: '0xd18616' }
-    - { index: 17, color: '0xcb2431' }
-theme: github_light_default
+    black: '#686868'
+    red: '#F27983'
+    green: '#A6CC70'
+    yellow: '#FFCC66'
+    blue: '#5CCFE6'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'
+theme: Ayu-Mirage

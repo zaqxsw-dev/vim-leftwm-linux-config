@@ -6,8 +6,8 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Highlighting:
-" Plugin 'folke/tokyonight.nvim'
-
+Plugin 'folke/tokyonight.nvim'
+" Plugin 'morhetz/gruvbox'
 
 if has('nvim')
   " Plugin 'ellisonleao/gruvbox.nvim'
@@ -31,7 +31,8 @@ if has('nvim')
   Plugin 'ur4ltz/surround.nvim'
 endif
 
-Plugin 'k4yt3x/ayu-vim-darker'
+" Plugin 'k4yt3x/ayu-vim-darker'
+Plugin 'projekt0n/github-nvim-theme'
 Plugin 'jiangmiao/auto-pairs' 
 Plugin 'sbdchd/neoformat'
 
@@ -46,14 +47,15 @@ Plugin 'ryanoasis/vim-devicons'
 
 Plugin 'vim-airline/vim-airline'
 
-let g:neoformat_try_node_exe = 1
+" let g:neoformat_try_node_exe = 1
 let g:neoformat_rust_rustfmt = {
   \ 'exe': 'rustfmt',
   \ 'args':['--edition 2021'],
   \ 'replace': 1
   \ }
 
-let g:neoformat_enabled_python = ['rustfmt']
+let g:neoformat_enabled_rust = ['rustfmt']
+" let g:neoformat_verbose = 1
 
 autocmd BufWritePre *.js,*.ts,*.php,*.rs Neoformat
 
@@ -123,8 +125,18 @@ set relativenumber
 let g:vimspector_enable_mappings = 'HUMAN'
 let g:tokyonight_style = "night"
 let g:tokyonight_italic_functions = 1
-let ayucolor="light"
-colorscheme ayu
+let g:github_function_style = "italic"
+let g:github_sidebars = ["qf", "vista_kind", "terminal", "packer"]
+
+" Change the "hint" color to the "orange" color, and make the "error" color bright red
+let g:github_colors = {
+  \ 'hint': 'orange',
+  \ 'error': '#ff0000'
+\ }
+
+" Load the colorscheme
+colorscheme tokyonight
+" colorscheme gruvbox
 if &term =~ '256color'
   set t_ut=
 endif
@@ -279,7 +291,7 @@ EOF
   nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
   nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
   nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-  " nnoremap <leader>fd <cmd>Telescope coc document_symbols<cr>
+  nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 
   set completeopt=menu,menuone,noselect
   nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>

@@ -6,15 +6,22 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Highlighting:
-Plugin 'folke/tokyonight.nvim'
+" Plugin 'folke/tokyonight.nvim'
 " Plugin 'morhetz/gruvbox'
+" Plugin 'sainnhe/everforest'
+" Plugin 'NLKNguyen/papercolor-theme'
+" Plugin 'sainnhe/gruvbox-material'
+" Plugin 'hzchirs/vim-material'
 
 if has('nvim')
-  " Plugin 'ellisonleao/gruvbox.nvim'
+" Plugin 'ellisonleao/gruvbox.nvim'
+" Plugin 'EdenEast/nightfox.nvim'
+  Plugin 'projekt0n/github-nvim-theme'
   Plugin 'nvim-lua/plenary.nvim'
   Plugin 'nvim-telescope/telescope.nvim'
-  Plugin 'neovim/nvim-lspconfig'
   Plugin 'williamboman/nvim-lsp-installer'
+  Plugin 'neovim/nvim-lspconfig'
+  Plugin 'glepnir/lspsaga.nvim', { 'branch': 'main' }
   Plugin 'hrsh7th/cmp-nvim-lsp'
   Plugin 'hrsh7th/cmp-buffer'
   Plugin 'hrsh7th/cmp-path'
@@ -29,15 +36,15 @@ if has('nvim')
   Plugin 'phaazon/hop.nvim'
   Plugin 'ray-x/lsp_signature.nvim'
   Plugin 'ur4ltz/surround.nvim'
+  Plugin 'kyazdani42/nvim-web-devicons'
+  Plugin 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+" Plugin 'glepnir/zephyr-nvim'
 endif
 
-" Plugin 'k4yt3x/ayu-vim-darker'
-Plugin 'projekt0n/github-nvim-theme'
 Plugin 'jiangmiao/auto-pairs' 
 Plugin 'sbdchd/neoformat'
 
 if !has('nvim')
-  " Cpp debug work only in vim
   Plugin 'puremourning/vimspector'
 endif
 
@@ -45,9 +52,8 @@ endif
 Plugin 'scrooloose/nerdtree'
 Plugin 'ryanoasis/vim-devicons'
 
-Plugin 'vim-airline/vim-airline'
+Plugin 'hoob3rt/lualine.nvim'
 
-" let g:neoformat_try_node_exe = 1
 let g:neoformat_rust_rustfmt = {
   \ 'exe': 'rustfmt',
   \ 'args':['--edition 2021'],
@@ -64,15 +70,15 @@ set rtp+=~/.fzf
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 
-Plugin 'fweep/vim-tabber'
-
 call vundle#end()
 
 " Vim configuration:
 " Indentation
 filetype plugin indent on
+set so=20
 set tabstop=2
 set shiftwidth=2
+set autoindent
 set expandtab
 set noswapfile
 
@@ -82,9 +88,6 @@ set number
 " No wrap:
 set nowrap
 set ignorecase
-
-" Tabber
-set tabline=%!tabber#TabLine()
 
 nnoremap <A-Left> :tabprevious<CR>
 nnoremap <A-Right> :tabnext<CR>
@@ -111,32 +114,23 @@ call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
 call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
-let g:airline#extensions#coc#enabled = 1
-
 if has('termguicolors')
   set termguicolors
 endif
 " enable the theme
 syntax enable
 let g:enable_bold_font = 1
-let g:gruvbox_contrast_light = 'hard'
-set background=dark
+set background=light
 set relativenumber
 let g:vimspector_enable_mappings = 'HUMAN'
-let g:tokyonight_style = "night"
+let g:tokyonight_style = "storm"
 let g:tokyonight_italic_functions = 1
-let g:github_function_style = "italic"
-let g:github_sidebars = ["qf", "vista_kind", "terminal", "packer"]
-
-" Change the "hint" color to the "orange" color, and make the "error" color bright red
-let g:github_colors = {
-  \ 'hint': 'orange',
-  \ 'error': '#ff0000'
-\ }
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_better_performance = 1
 
 " Load the colorscheme
-colorscheme tokyonight
-" colorscheme gruvbox
+" colorscheme vim-material
+colorscheme github_light
 if &term =~ '256color'
   set t_ut=
 endif
@@ -202,22 +196,22 @@ lua <<EOF
   --   capabilities = capabilities
   -- }
 
-  -- require("lspconfig")['rust-analyzer'].setup({
-  --   capabilities = capabilities,
-  --   cmd = { "rustup", "run", "nightly", "rust-analyzer"},
-  -- })
+  require("lspconfig")['rust_analyzer'].setup({
+    capabilities = capabilities,
+    cmd = { "rustup", "run", "nightly", "rust-analyzer"},
+  })
 
-  require('rust-tools').setup {
-    capabilities = capabilities
-  }
+  -- require('rust-tools').setup {
+  --   capabilities = capabilities
+  -- }
 
   require('lspconfig')['tsserver'].setup {
     capabilities = capabilities
   }
 
-  require('lspconfig')['flow'].setup {
-    capabilities = capabilities
-  }
+  -- require('lspconfig')['flow'].setup {
+  --   capabilities = capabilities
+  -- }
 
   local snippets_paths = function()
   	local plugins = { "friendly-snippets" }
@@ -284,6 +278,96 @@ lua <<EOF
   require "lsp_signature".setup(cfg)
 
   require"surround".setup {mappings_style = "surround"}
+  require('lualine').setup({
+    options = {
+      theme = "onelight"
+    }
+  })
+  require('bufferline').setup({
+    options = {
+      mode = "tabs",
+      modified_icon = '✥',
+      buffer_close_icon = '',
+      always_show_bufferline = false,
+      separator_style = 'thick'
+    },
+  })
+
+
+ 
+  local saga = require 'lspsaga'
+  -- local kind = require('lspsaga.lspkind')
+  -- kind[type_number][2] = icon -- see lua/lspsaga/lspkind.lua
+  -- saga.init_lsp_saga()
+  saga.init_lsp_saga({
+    -- Options with default value
+    -- "single" | "double" | "rounded" | "bold" | "plus"
+    border_style = "single",
+    -- when cursor in saga window you config these to move
+    move_in_saga = { prev = '<C-p>',next = '<C-n>'},
+    -- Error, Warn, Info, Hint
+    -- use emoji like
+    -- { "🙀", "😿", "😾", "😺" }
+    -- or
+    -- { "😡", "😥", "😤", "😐" }
+    -- and diagnostic_header can be a function type
+    -- must return a string and when diagnostic_header
+    -- is function type it will have a param `entry`
+    -- entry is a table type has these filed
+    -- { bufnr, code, col, end_col, end_lnum, lnum, message, severity, source }
+    diagnostic_header = { " ", " ", " ", "ﴞ " },
+    -- show diagnostic source
+    show_diagnostic_source = true,
+    -- add bracket or something with diagnostic source, just have 2 elements
+    diagnostic_source_bracket = {},
+    -- use emoji lightbulb in default
+    code_action_icon = "💡",
+    -- if true can press number to execute the codeaction in codeaction window
+    code_action_num_shortcut = true,
+    -- same as nvim-lightbulb but async
+    code_action_lightbulb = {
+        enable = true,
+        sign = true,
+        sign_priority = 20,
+        virtual_text = true,
+    },
+    -- separator in finder
+    -- finder_separator = "  ",
+    -- preview lines of lsp_finder and definition preview
+    max_preview_lines = 10,
+    finder_action_keys = {
+        open = "o",
+        vsplit = "s",
+        split = "i",
+        tabe = "t",
+        quit = "q",
+        scroll_down = "<C-f>",
+        scroll_up = "<C-b>", -- quit can be a table
+    },
+    code_action_keys = {
+        quit = "q",
+        exec = "<CR>",
+    },
+    rename_action_quit = "<C-c>",
+    definition_preview_icon = "  ",
+    -- show symbols in winbar must nightly
+    symbol_in_winbar = {
+        in_custom = false,
+        enable = false,
+        separator = ' ',
+        show_file = true,
+        click_support = false,
+    },
+
+    -- if you don't use nvim-lspconfig you must pass your server name and
+    -- the related filetypes into this table
+    -- like server_filetype_map = { metals = { "sbt", "scala" } }
+    server_filetype_map = {},
+  })
+
+  local term = require("lspsaga.floaterm")
+  vim.keymap.set("n", "<C-x>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true,noremap = true })
+  vim.keymap.set("t", "<C-x>", "<C-\\><C-n><cmd>Lspsaga close_floaterm<CR>", { silent = true,noremap =true })
 
 EOF
 
@@ -300,6 +384,7 @@ EOF
   nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
   nnoremap <silent> gS <cmd>lua vim.lsp.buf.type_definition()<CR>
   nnoremap <silent> gs <cmd>lua vim.lsp.buf.signature_help()<CR>
+  nnoremap <silent> fe <cmd>lua vim.diagnostic.open_float()<CR>
   nnoremap <silent> t <cmd>HopChar2<CR>
   nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
   nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -309,8 +394,6 @@ EOF
   nnoremap <leader>vca :lua vim.lsp.buf.code_action()<CR>
   nnoremap <leader>vsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
   nnoremap <leader>vll :call LspLocationList()<CR>
-  nnoremap <silent> <C-s> <cmd>RustRunnables<CR>
-
 
   imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
   inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
@@ -343,7 +426,7 @@ EOF
   let g:compe.source.ultisnips = v:true
   let g:compe.source.luasnip = v:true
 
-  set guifont=FiraCode\ Nerd\ Font\ Mono:h18
+  set guifont=FiraCode\ Nerd\ Font:h17
 
 endif
 

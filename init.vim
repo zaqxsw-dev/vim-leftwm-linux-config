@@ -6,7 +6,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Highlighting:
-" Plugin 'folke/tokyonight.nvim'
+Plugin 'folke/tokyonight.nvim'
 " Plugin 'morhetz/gruvbox'
 " Plugin 'sainnhe/everforest'
 " Plugin 'NLKNguyen/papercolor-theme'
@@ -15,7 +15,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 if has('nvim')
 " Plugin 'ellisonleao/gruvbox.nvim'
-" Plugin 'EdenEast/nightfox.nvim'
+  Plugin 'EdenEast/nightfox.nvim'
   Plugin 'projekt0n/github-nvim-theme'
   Plugin 'nvim-lua/plenary.nvim'
   Plugin 'nvim-telescope/telescope.nvim'
@@ -123,14 +123,14 @@ let g:enable_bold_font = 1
 set background=light
 set relativenumber
 let g:vimspector_enable_mappings = 'HUMAN'
-let g:tokyonight_style = "storm"
+let g:tokyonight_style = "day"
 let g:tokyonight_italic_functions = 1
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
 
 " Load the colorscheme
 " colorscheme vim-material
-colorscheme github_light
+colorscheme dayfox
 if &term =~ '256color'
   set t_ut=
 endif

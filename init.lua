@@ -47,6 +47,7 @@ use {'hrsh7th/cmp-path'}
 use {'hrsh7th/cmp-cmdline'}
 use {'hrsh7th/nvim-cmp'}
 use {'ray-x/lsp_signature.nvim'}
+use {'simrat39/rust-tools.nvim'}
 -- Snippets
 use {'L3MON4D3/LuaSnip'}
 use {'rafamadriz/friendly-snippets'}
@@ -67,7 +68,6 @@ use {'nvim-tree/nvim-tree.lua'}
 use {'junegunn/fzf.vim'}
 use {'junegunn/fzf'}
 -- use {'tzachar/cmp-tabnine', { 'do': './install.sh' }}
-use {'simrat39/rust-tools.nvim'}
 end)
 
 -- Right now we are using rust tools. And this already have rust code formatter
@@ -114,11 +114,11 @@ cmp.setup({
   sources = cmp.config.sources(
   {
     { name = 'luasnip' },
-  }
-  -- {
+  },
+  {
   --   { name = 'cmp_tabnine' },
-  --   { name = 'nvim_lsp' },
-  -- }
+    { name = 'nvim_lsp' },
+  }
   )
 })
 
@@ -136,7 +136,9 @@ cmp.setup.cmdline(':', {
   })
 })
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- require("lspconfig")['rust_analyzer'].setup({
 --   capabilities = capabilities,
@@ -148,7 +150,7 @@ rt.setup({
   server = {
     on_attach = function(_, bufnr)
       -- Hover actions
-      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      vim.keymap.set("n", "<Leader>s", rt.hover_actions.hover_actions, { buffer = bufnr })
       -- Code action groups
       vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
     end,

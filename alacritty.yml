@@ -62,7 +62,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.9
+  opacity: 0.93
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -105,9 +105,9 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    #family: mononoki Nerd Font Mono 
-    family: FiraCode Nerd Font
-    #family: Hack Nerd Font Mono
+    #family: MesloLGM Nerd Font
+    #family: FiraCode Nerd Font
+    family: TerminessTTF Nerd Font
     # The `style` can be specified to pick a specific face.
     # style: Regular
     # Bold font face
@@ -139,7 +139,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 17.0
+  size: 15.0
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
@@ -799,32 +799,30 @@ font:
 colors:
   # Default colors
   primary:
-    background: '0xffffff'
-    foreground: '0x4d5566'
+    # hard contrast: background = '#1d2021'
+    background: '#282828'
+    # soft contrast: background = '#32302f'
+    foreground: '#ebdbb2'
 
   # Normal colors
   normal:
-    black: '0x24292e'
-    red: '0xd73a49'
-    green: '0x22863a'
-    yellow: '0xb08800'
-    blue: '0x0366d6'
-    magenta: '0x6f42c1'
-    cyan: '0x1b7c83'
-    white: '0x4d5566'
+    black: '#282828'
+    red: '#cc241d'
+    green: '#98971a'
+    yellow: '#d79921'
+    blue: '#458588'
+    magenta: '#b16286'
+    cyan: '#689d6a'
+    white: '#a89984'
 
   # Bright colors
   bright:
-    black: '0x586069'
-    red: '0xcb2431'
-    green: '0x28a745'
-    yellow: '0xdbab09'
-    blue: '0x2188ff'
-    magenta: '0x8a63d2'
-    cyan: '0x1b7c83'
-    white: '0x4d5566'
-
-  indexed_colors:
-    - { index: 16, color: '0xd18616' }
-    - { index: 17, color: '0xcb2431' }
-theme: github_light_default
+    black: '#928374'
+    red: '#fb4934'
+    green: '#b8bb26'
+    yellow: '#fabd2f'
+    blue: '#83a598'
+    magenta: '#d3869b'
+    cyan: '#8ec07c'
+    white: '#ebdbb2'
+theme: Gruvbox-Dark

@@ -1,6 +1,6 @@
 vim.cmd [[autocmd BufWritePre *.js,*.ts,*.php,*.rs,*.cs,*.json,*.tsx,*.jsx Neoformat]]
 vim.cmd [[set rtp+=~/.fzf]]
-vim.cmd [[set signcolumn rtp+=~/.mn=no]]
+vim.cmd [[set signcolumn=yes]]
 
 vim.opt.cmdheight = 1
 vim.opt.updatetime = 50
@@ -30,6 +30,7 @@ end
 
 -- Plugins
 require('packer').startup(function(use)
+use { "wbthomason/packer.nvim" }
 -- Theme
 use {'xiyaowong/nvim-transparent'}
 use {'ellisonleao/gruvbox.nvim'}
@@ -39,18 +40,19 @@ use {'nvim-telescope/telescope.nvim'}
 use {'lewis6991/gitsigns.nvim'}
 -- LSP
 use {'williamboman/nvim-lsp-installer'}
-use {'neovim/nvim-lspconfig'}
-use {'glepnir/lspsaga.nvim', branch = 'main'}
+use {'hrsh7th/nvim-cmp'}
 use {'hrsh7th/cmp-nvim-lsp'}
 use {'hrsh7th/cmp-buffer'}
 use {'hrsh7th/cmp-path'}
 use {'hrsh7th/cmp-cmdline'}
-use {'hrsh7th/nvim-cmp'}
 use {'ray-x/lsp_signature.nvim'}
+use {'neovim/nvim-lspconfig'}
+use {'glepnir/lspsaga.nvim', branch = 'main'}
 use {'simrat39/rust-tools.nvim'}
 -- Snippets
 use {'L3MON4D3/LuaSnip'}
-use {'rafamadriz/friendly-snippets'}
+use {'saadparwaiz1/cmp_luasnip'}
+-- use {'rafamadriz/friendly-snippets'}
 -- Improove code hightlighter
 use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 -- Navigation and edit help
@@ -90,7 +92,7 @@ local cmp = require'cmp'
 cmp.setup({
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      require('luasnip').lsp_expand(args.body)
     end,
   },
   mapping = {
@@ -103,32 +105,34 @@ cmp.setup({
     end,
     ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
+    -- ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    -- ['<C-e>'] = cmp.mapping({
+    --   i = cmp.mapping.abort(),
+    --   c = cmp.mapping.close(),
+    -- }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   },
   sources = cmp.config.sources(
-  {
-    { name = 'luasnip' },
-  },
-  {
-  --   { name = 'cmp_tabnine' },
-    { name = 'nvim_lsp' },
-  }
+    {
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' },
+    },
+    {
+      { name = 'buffer' },
+    }
   )
 })
 
-cmp.setup.cmdline('/', {
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer' }
   }
 })
 
 cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
@@ -136,9 +140,8 @@ cmp.setup.cmdline(':', {
   })
 })
 
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- require("lspconfig")['rust_analyzer'].setup({
 --   capabilities = capabilities,
@@ -148,10 +151,9 @@ local rt = require("rust-tools")
 
 rt.setup({
   server = {
+    capabilities = capabilities,
     on_attach = function(_, bufnr)
-      -- Hover actions
       vim.keymap.set("n", "<Leader>s", rt.hover_actions.hover_actions, { buffer = bufnr })
-      -- Code action groups
       vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
     end,
   },
@@ -161,25 +163,25 @@ require('lspconfig')['tsserver'].setup {
   capabilities = capabilities
 }
 
-local snippets_paths = function()
-	local plugins = { "friendly-snippets" }
-	local paths = {}
-	local path
-	local root_path = vim.env.HOME .. "/.vim/plugged/"
-	for _, plug in ipairs(plugins) do
-		path = root_path .. plug
-		if vim.fn.isdirectory(path) ~= 0 then
-			table.insert(paths, path)
-		end
-	end
-	return paths
-end
-
-require("luasnip.loaders.from_vscode").lazy_load({
-	paths = snippets_paths(),
-	include = nil,
-	exclude = {},
-})
+-- local snippets_paths = function()
+-- 	local plugins = { "friendly-snippets" }
+-- 	local paths = {}
+-- 	local path
+-- 	local root_path = vim.env.HOME .. "/.vim/plugged/"
+-- 	for _, plug in ipairs(plugins) do
+-- 		path = root_path .. plug
+-- 		if vim.fn.isdirectory(path) ~= 0 then
+-- 			table.insert(paths, path)
+-- 		end
+-- 	end
+-- 	return paths
+-- end
+-- 
+-- require("luasnip.loaders.from_vscode").lazy_load({
+-- 	paths = snippets_paths(),
+-- 	include = nil,
+-- 	exclude = {},
+-- })
 
 -- local tabnine = require('cmp_tabnine.config')
 
@@ -241,7 +243,7 @@ require'hop'.setup()
 
 cfg = {
   floating_window = false,
-  hint_prefix = "🎇 "
+  hint_prefix = "🎇 ",
 }
 require "lsp_signature".setup(cfg)
 

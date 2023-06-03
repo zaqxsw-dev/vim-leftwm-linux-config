@@ -60,6 +60,7 @@ This project created for save my current Neovim config.
 
 <img src="files/screenshot.jpg" alt="Screenshot1">
 <img src="files/screenshot2.jpg" alt="Screenshot2">
+<img src="files/screenshot3.jpg" alt="Screenshot2">
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -47,7 +47,7 @@ use {'hrsh7th/cmp-path'}
 use {'hrsh7th/cmp-cmdline'}
 use {'ray-x/lsp_signature.nvim'}
 use {'neovim/nvim-lspconfig'}
-use {'glepnir/lspsaga.nvim', branch = 'main'}
+use {'glepnir/lspsaga.nvim', branch = 'main', opt = true, event = "LspAttach"}
 use {'simrat39/rust-tools.nvim'}
 use {'onsails/lspkind.nvim'}
 -- Snippets
@@ -327,13 +327,7 @@ local config = {
     -- Disable sections and component separators
     component_separators = '',
     section_separators = '',
-    theme = {
-      -- We are going to use lualine_c an lualine_x as left and
-      -- right section. Both are highlighted by c theme .  So we
-      -- are just setting default looks o statusline
-      normal = { c = { fg = colors.fg, bg = colors.bg } },
-      inactive = { c = { fg = colors.fg, bg = colors.bg } },
-    },
+    theme = "gruvbox_dark",
   },
   sections = {
     -- these are to remove the defaults
@@ -663,6 +657,8 @@ vim.keymap.set("n", "<leader>fd", function() require('telescope.builtin').lsp_do
 vim.keymap.set("n", "t", "<cmd>HopChar1<CR>", { silent = true, noremap = true })
 
 -- LSP hotkeys
+vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true, noremap = true })
+vim.keymap.set({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true, noremap = true })
 vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { silent = true, noremap = true })
 vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, { silent = true, noremap = true })
 vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, { silent = true, noremap = true })
@@ -697,3 +693,5 @@ vim.cmd [[map <D-v> "+p<CR>]]
 vim.cmd [[map! <D-v> <C-R>+]]
 vim.cmd [[tmap <D-v> <C-R>+]]
 vim.cmd [[vmap <D-c> "+y<CR>]]
+
+require('transparent').toggle(true)

@@ -1,6 +1,7 @@
 vim.cmd [[autocmd BufWritePre *.js,*.ts,*.php,*.rs,*.cs,*.json,*.tsx,*.jsx Neoformat]]
 vim.cmd [[set rtp+=~/.fzf]]
 vim.cmd [[set signcolumn=yes]]
+vim.cmd [[set clipboard=unnamedplus]]
 
 vim.opt.cmdheight = 1
 vim.opt.updatetime = 50
@@ -37,6 +38,7 @@ require('packer').startup(function(use)
   use { 'ellisonleao/gruvbox.nvim' }
   use { 'glepnir/oceanic-material' }
   use { 'HampusHauffman/bionic.nvim' }
+  use { 'bluz71/vim-moonfly-colors' }
   -- Find files and code
   use { 'nvim-lua/plenary.nvim' }
   use { 'nvim-telescope/telescope.nvim' }
@@ -52,8 +54,8 @@ require('packer').startup(function(use)
   use { 'hrsh7th/cmp-cmdline' }
   use { 'ray-x/lsp_signature.nvim' }
   use { 'neovim/nvim-lspconfig' }
-  use { 'simrat39/rust-tools.nvim' }
   use { 'onsails/lspkind.nvim' }
+  use { 'mrcjkb/rustaceanvim', tag="4.*" }
   -- Snippets
   use { 'L3MON4D3/LuaSnip' }
   use { 'saadparwaiz1/cmp_luasnip' }
@@ -157,7 +159,10 @@ cmp.setup({
     {
       { name = 'buffer' },
     }
-  )
+  ),
+  experimental = {
+    ghost_text = true,
+  }
 })
 
 cmp.setup.cmdline({ '/', '?' }, {
@@ -178,23 +183,31 @@ cmp.setup.cmdline(':', {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require("mason").setup()
+vim.g.rustaceanvim = {
+  -- Plugin configuration
+  tools = {
+  },
+  -- LSP configuration
+  server = {
+    on_attach = function(client, bufnr)
+      -- you can also put keymaps in here
+    end,
+    default_settings = {
+      -- rust-analyzer language server configuration
+      ['rust-analyzer'] = {
+      },
+    },
+  },
+  -- DAP configuration
+  dap = {
+  },
+}
 -- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- require("lspconfig")['rust_analyzer'].setup({
 --   capabilities = capabilities,
 --   cmd = { "rustup", "run", "nightly", "rust-analyzer"},
 -- })
-local rt = require("rust-tools")
-
-rt.setup({
-  server = {
-    capabilities = capabilities,
-    on_attach = function(_, bufnr)
-      vim.keymap.set("n", "<Leader>s", rt.hover_actions.hover_actions, { buffer = bufnr })
-      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-    end,
-  },
-})
 
 require('lspconfig')['tsserver'].setup {
   capabilities = capabilities
@@ -312,7 +325,7 @@ local config = {
     -- Disable sections and component separators
     component_separators = '',
     section_separators = '',
-    theme = "gruvbox_dark",
+    theme = "gruvbox",
   },
   sections = {
     -- these are to remove the defaults
@@ -612,8 +625,9 @@ vim.g.oceanic_material_allow_reverse = 1
 vim.cmd [[syntax enable]]
 vim.g.enable_bold_font = 1
 vim.cmd [[set background=dark]]
---vim.cmd [[colorscheme oceanic_material]]
-vim.cmd [[colorscheme kanagawa]]
+vim.cmd [[colorscheme oceanic_material]]
+--vim.cmd [[colorscheme gruvbox]]
+--vim.cmd [[colorscheme moonfly]]
 
 -- NEOVIDE config
 -- Allow copy paste in neovim - NEOVIDE

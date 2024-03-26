@@ -58,9 +58,16 @@
 
 This project created for save my current Neovim config.
 
+In macos (Old)
+
 <img src="files/screenshot.png" alt="Screenshot1">
 <img src="files/screenshot2.png" alt="Screenshot2">
 <img src="files/screenshot3.png" alt="Screenshot2">
+
+In linux (new)
+
+<img src="files/screenshot4.png" alt="Screenshot2">
+<img src="files/screenshot5.png" alt="Screenshot2">
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

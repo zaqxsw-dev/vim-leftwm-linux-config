@@ -12,6 +12,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
+
 <div align="center">
 
 <h3 align="center">My Neovim, alacritty, left-wm and etc. linux configs</h3>

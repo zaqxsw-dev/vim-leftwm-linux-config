@@ -1,7 +1,5 @@
 <a name="readme-top"></a>
 
-
-
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -16,7 +14,7 @@
 <br />
 <div align="center">
 
-<h3 align="center">Neovim(nvim) config JS TS html css php rust react support</h3>
+<h3 align="center">My Neovim, alacritty, left-wm and etc. linux configs</h3>
 
   <p align="center">
     One file Neovim config. It make IDE from powerfull editor. (TESTED only on MACos but it must be work for linux)

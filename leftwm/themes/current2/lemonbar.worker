@@ -1,0 +1,45 @@
+#!/bin/sh
+
+Dot(){
+	DOT='%{F#757575}·%{F-}'
+	echo -e -n "${DOT}" 
+}
+
+Tags(){
+    W="$1"
+    TAGS="$(leftwm-state -q -t ~/.config/leftwm/themes/current/lemonbar.experimental.liquid -w $W)"
+    echo -e -n "${TAGS}" 
+}
+
+Clock(){
+    TIME="$(date '+%d %b %H:%M')"
+    echo -e -n "${TIME}" 
+}
+
+Wlan(){
+	netstate="$(cat /sys/class/net/"$1"/operstate)"
+	[ "$netstate" = "up" ] && WLAN='直' || WLAN'睊'
+	WIFISTR=$( iwconfig $1 | grep "Link" | sed 's/ //g' | sed 's/LinkQuality=//g' | sed 's/\/.*//g')
+	if [ ! -z $WIFISTR ] ; then
+		WIFISTR=$(( ${WIFISTR} * 100 / 70))
+	fi	
+	echo -e -n "${WLAN} ${WIFISTR}%" 
+}
+
+Volume(){
+	VOL="$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq)"
+	echo " ${VOL}%" 
+}
+
+
+Powermenu(){
+    POWERMENU='%{B#D79921}%{F#3C3836}%{A:~/.config/leftwm/themes/current/rofi/powermenu.sh :}  襤  %{A}%{F-}%{B-}'
+    echo -e -n "${POWERMENU}" 
+}
+
+
+while true
+do
+    printf "%s" "$(Tags $1) %{r} $(Volume)  $(Wlan wlp5s0)  $(Dot) $(Clock)  $(Powermenu)"
+	sleep 0.1
+done
